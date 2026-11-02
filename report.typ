@@ -3,6 +3,7 @@
 #import "utils.typ": *
 
 #set enum(numbering: "a.")
+#show raw.where(lang: "vhdl"): set raw(syntaxes: "resources/VHDL.sublime-syntax")
 
 #let headrow(a, b, c, a_s: 10pt, b_s: 10pt, c_s: 10pt) = {
   v(-0.65em)
@@ -48,9 +49,10 @@
 N/A
 
 == Problems Encountered
+This lab took longer than some because I needed to set up Quartus on my Windows PC, and practice using it in preparation for the practical. I also had an incorrect truth table row, which took a while to debug.
 
 == Future Work/Applications
-
+General Mealy and Moore state machines are extremely useful mechanisms in hardware designs as many systems can be represented, analyzed, and implemented in this way. They provide a simple way to encode sequential, branching "programs" in hardware, without requiring a microcontroller in the design. Similar state machines can be used to describe the way robots react to their surroundings while performing tasks---in fact, in the most recent Lunar Gators meeting we developed a state machine to describe our robot's high-level event loop.
 #pagebreak()
 
 == Pre-Lab Questions Or Exercises
@@ -141,44 +143,18 @@ N/A
   1,1,1,1,"-","-"  , "X","X","X","X","X","X","X",
 )
 #pagebreak()
-Resulting MSOP expressions in VHDL:
-```vhdl
-Q3+    <=   ((not Q3) and (not Q2)                           and EV                   )
-      	 or ((not Q3) and Q2       and (not Q1) and (not Q0) and (not EV) and CW      )
-      	 or ((not Q3) and Q2       and (not Q1) and (not Q0) and EV                   )
-      	 or (Q3       and (not Q2) and (not Q1) and (not Q0)                          )
-      	 or (Q3       and (not Q2) and (not Q1) and Q0                                )
-      	 or (Q3       and Q2       and (not Q1) and (not Q0)                          )
-      	 or (Q3       and Q2       and (not Q1) and Q0                                )
-      	 or (Q3       and Q2       and Q1       and (not Q0) and EV                   );
-Q2+    <=   ((not Q3) and (not Q2) and Q1       and Q0       and (not EV)             )
-      	 or (Q3       and (not Q2) and (not Q1) and Q0                                )
-      	 or (Q3       and Q2       and (not Q1) and (not Q0)                          )
-      	 or (Q3       and Q2       and (not Q1) and Q0                                )
-      	 or (Q3       and Q2       and Q1       and (not Q0) and EV                   );
-Q1+    <=   ((not Q3) and (not Q2) and (not Q1) and Q0       and (not EV)             )
-      	 or ((not Q3) and (not Q2) and Q1       and (not Q0) and (not EV)             )
-      	 or (Q3       and Q2       and (not Q1) and Q0                                )
-      	 or (Q3       and Q2       and Q1       and (not Q0) and EV                   );
-Q0+    <=   ((not Q3) and (not Q2) and (not Q1) and (not Q0) and (not EV)             )
-      	 or ((not Q3) and (not Q2) and Q1       and (not Q0) and (not EV)             )
-      	 or ((not Q3) and (not Q2)                           and EV                   )
-      	 or ((not Q3) and Q2       and (not Q1) and (not Q0) and (not EV) and CW      )
-      	 or ((not Q3) and Q2       and (not Q1) and (not Q0) and EV                   )
-      	 or (Q3       and (not Q2) and (not Q1) and (not Q0)                          )
-      	 or (Q3       and Q2       and (not Q1) and (not Q0)                          );
-GREEN  <=   ((not Q3) and (not Q2) and (not Q1) and (not Q0) and (not EV)             )
-      	 or ((not Q3) and (not Q2) and (not Q1) and Q0       and (not EV)             )
-      	 or ((not Q3) and (not Q2) and Q1       and (not Q0) and (not EV)             )
-      	 or ((not Q3) and (not Q2) and Q1       and Q0       and (not EV)             )
-      	 or ((not Q3) and Q2       and (not Q1) and (not Q0) and (not EV) and (not CW))
-      	 or ((not Q3) and Q2       and (not Q1) and (not Q0) and (not EV) and CW      );
-YELLOW <=   ((not Q3) and (not Q2)                           and EV                   )
-      	 or ((not Q3) and Q2       and (not Q1) and (not Q0) and EV                   )
-      	 or (Q3       and (not Q2) and (not Q1) and (not Q0)                          )
-      	 or (Q3       and (not Q2) and (not Q1) and Q0                                );
-RED    <=   (Q3       and Q2       and (not Q1) and (not Q0)                          )
-      	 or (Q3       and Q2       and (not Q1) and Q0                                )
-      	 or (Q3       and Q2       and Q1       and (not Q0) and (not EV)             )
-      	 or (Q3       and Q2       and Q1       and (not Q0) and EV                   );
-```
+=== Part 3: VHDL Combinational Logic
+#text(size: 9pt)[#raw(read("quartus/traf_comb.vhdl"), lang: "vhdl")]
+#pagebreak()
+
+=== Part 4: Circuit Design
+#figure(
+  image("images/tfcirc.png", width: 90%),
+  caption: [State machine corresponding to the ASM from Part 1, using the VHDL logic from Part 3.]
+)
+
+=== Part 5: Simulation
+#figure(
+  image("images/tfsim_anno.png"),
+  caption: [Simulation of design from Part 4, showing effects of CW and EV.]
+)
