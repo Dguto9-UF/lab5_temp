@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 entity comb is
   port (
     Q3,Q2,Q1,Q0,EV,CW: in std_logic;
-    Q3p,Q2p,Q1p,Q0p,GREEN,YELLOW,RED: out std_logic
+    D3,D2,D1,D0,GREEN,YELLOW,RED: out std_logic
   );
 end entity;
 
